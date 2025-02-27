@@ -7,6 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const formatNumberWithDecimal = (num: number): string => {
   const [int, decimal] = num.toString().split(".");
+
   return decimal ? `${int}.${decimal.padEnd(2, "0")}` : int;
 };
 
@@ -45,21 +46,109 @@ export const formatError = (error: any): string => {
   if (error.name === "ZodError") {
     const fieldErrors = Object.keys(error.errors).map((field) => {
       const errorMessage = error.errors[field].message;
+
       return `${error.errors[field].path}: ${errorMessage}`;
     });
     return fieldErrors.join(". ");
   } else if (error.name === "ValidationError") {
     const fieldErrors = Object.keys(error.errors).map((field) => {
       const errorMessage = error.errors[field].message;
+
       return errorMessage;
     });
     return fieldErrors.join(". ");
   } else if (error.code === 11000) {
     const duplicateField = Object.keys(error.keyValue)[0];
+
     return `${duplicateField} already exists`;
   } else {
     return typeof error.message === "string"
       ? error.message
       : JSON.stringify(error.message);
   }
+};
+
+export const calculateFutureDate = (days: number) => {
+  const currentDate = new Date();
+
+  currentDate.setDate(currentDate.getDate() + days);
+
+  return currentDate;
+};
+export const getMonthName = (yearAndMonth: string) => {
+  const [year, monthNumber] = yearAndMonth.split("-"); // eslint-disable-line @typescript-eslint/no-unused-vars
+
+  const date = new Date();
+
+  date.setMonth(parseInt(monthNumber) - 1);
+
+  return new Date().getMonth() === parseInt(monthNumber) - 1
+    ? `${date.toLocaleString("default", { month: "long" })} (ongoing)`
+    : date.toLocaleString("default", { month: "long" });
+};
+export const calculatePastDate = (days: number) => {
+  const currentDate = new Date();
+
+  currentDate.setDate(currentDate.getDate() - days);
+
+  return currentDate;
+};
+export const timeUntilMidnight = (): { hours: number; minutes: number } => {
+  const now = new Date();
+
+  const midnight = new Date();
+
+  midnight.setHours(24, 0, 0, 0);
+
+  const diff = midnight.getTime() - now.getTime();
+
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+  return { hours, minutes };
+};
+
+export const formatDateTime = (dateString: Date) => {
+  const dateTimeOptions: Intl.DateTimeFormatOptions = {
+    month: "short",
+    year: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    month: "short",
+    year: "numeric",
+    day: "numeric",
+  };
+
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+
+  const formattedDateTime: string = new Date(dateString).toLocaleString(
+    "en-US",
+    dateTimeOptions
+  );
+
+  const formattedDate: string = new Date(dateString).toLocaleString(
+    "en-US",
+    dateOptions
+  );
+
+  const formattedTime: string = new Date(dateString).toLocaleString(
+    "en-US",
+    timeOptions
+  );
+
+  return {
+    dateTime: formattedDateTime,
+    dateOnly: formattedDate,
+    timeOnly: formattedTime,
+  };
 };
