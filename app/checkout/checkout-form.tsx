@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -42,6 +43,7 @@ import {
   DEFAULT_PAYMENT_METHOD,
 } from "@/lib/constants";
 import { ShippingAddressSchema } from "@/lib/validator";
+import { createOrder } from "@/lib/actions/order.actions";
 
 import { ShippingAddress } from "@/types";
 
@@ -88,6 +90,7 @@ export const CheckoutForm = () => {
     updateItem,
     removeItem,
     setDeliveryDateIndex,
+    clearCart,
   } = useCartStore();
 
   const isMounted = useIsMounted();
@@ -122,7 +125,26 @@ export const CheckoutForm = () => {
     useState<boolean>(false);
 
   const handlePlaceOrder = async () => {
-    // TODO: place order
+    const res = await createOrder({
+      items,
+      shippingAddress,
+      expectedDeliveryDate: calculateFutureDate(
+        AVAILABLE_DELIVERY_DATES[deliveryDateIndex!].daysToDeliver
+      ),
+      deliveryDateIndex,
+      paymentMethod,
+      itemsPrice,
+      shippingPrice,
+      taxPrice,
+      totalPrice,
+    });
+    if (!res.success) {
+      toast(res.message);
+    } else {
+      toast(res.message);
+      clearCart();
+      router.push(`/checkout/${res.data?.orderId}`);
+    }
   };
 
   const handleSelectPaymentMethod = () => {

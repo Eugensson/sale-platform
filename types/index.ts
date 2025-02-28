@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import {
   CartSchema,
+  OrderInputSchema,
   OrderItemSchema,
   ProductInputSchema,
   ShippingAddressSchema,
@@ -11,6 +12,15 @@ import {
 } from "@/lib/validator";
 
 export type IProductInput = z.infer<typeof ProductInputSchema>;
+
+export type Cart = z.infer<typeof CartSchema>;
+export type OrderItem = z.infer<typeof OrderItemSchema>;
+export type IOrderInput = z.infer<typeof OrderInputSchema>;
+export type ShippingAddress = z.infer<typeof ShippingAddressSchema>;
+
+export type IUserInput = z.infer<typeof UserInputSchema>;
+export type IUserSignIn = z.infer<typeof UserSignInSchema>;
+export type IUserSignUp = z.infer<typeof UserSignUpSchema>;
 
 export type Data = {
   users: IUserInput[];
@@ -27,11 +37,3 @@ export type Data = {
     isPublished: boolean;
   }[];
 };
-
-export type OrderItem = z.infer<typeof OrderItemSchema>;
-export type Cart = z.infer<typeof CartSchema>;
-export type ShippingAddress = z.infer<typeof ShippingAddressSchema>;
-
-export type IUserInput = z.infer<typeof UserInputSchema>;
-export type IUserSignIn = z.infer<typeof UserSignInSchema>;
-export type IUserSignUp = z.infer<typeof UserSignUpSchema>;
