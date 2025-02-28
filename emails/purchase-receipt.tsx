@@ -13,8 +13,8 @@ import {
   Text,
 } from "@react-email/components";
 
-import { DOMAIN } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
+import { SERVER_URL } from "@/lib/constants";
 import { IOrder } from "@/lib/db/models/order.model";
 
 type OrderInformationProps = {
@@ -61,7 +61,6 @@ PurchaseReceiptEmail.PreviewProps = {
     isDelivered: true,
   } as IOrder,
 } satisfies OrderInformationProps;
-
 const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
 
 export default async function PurchaseReceiptEmail({
@@ -111,7 +110,7 @@ export default async function PurchaseReceiptEmail({
                       className="rounded"
                       src={
                         item.image.startsWith("/")
-                          ? `${DOMAIN}${item.image}`
+                          ? `${SERVER_URL}${item.image}`
                           : item.image
                       }
                     />

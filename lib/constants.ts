@@ -1,11 +1,9 @@
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "SalePlatform";
 
-export const DOMAIN =
+export const SERVER_URL =
   process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
 
-export const EMAIL_SENDER = process.env.NODEMAILER_SENDER_EMAIL;
-
-export const PASS = process.env.NODEMAILER_SENDER_PASSWORD;
+export const SENDER_EMAIL = process.env.SENDER_EMAIL || "onboarding@resend.dev";
 
 export const SENDER_NAME = process.env.SENDER_NAME || APP_NAME;
 
