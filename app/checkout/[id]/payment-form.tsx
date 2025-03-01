@@ -1,17 +1,19 @@
 "use client";
 
 import { toast } from "sonner";
-import { redirect, useRouter } from "next/navigation";
-
 import {
   PayPalButtons,
   PayPalScriptProvider,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { redirect, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
+import { StripeForm } from "@/app/checkout/[id]/stripe-form";
 import { CheckoutFooter } from "@/app/checkout/checkout-footer";
 import { ProductPrice } from "@/components/shared/product/product-price";
 
@@ -26,13 +28,20 @@ interface OrderPaymentFormProps {
   order: IOrder;
   paypalClientId: string;
   isAdmin: boolean;
+  clientSecret: string | null;
 }
 
 export const OrderPaymentForm = ({
   order,
   paypalClientId,
+  clientSecret,
 }: OrderPaymentFormProps) => {
   const router = useRouter();
+
+  const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
+  );
+
   const {
     shippingAddress,
     items,
@@ -122,6 +131,20 @@ export const OrderPaymentForm = ({
                 onApprove={handleApprovePayPalOrder}
               />
             </PayPalScriptProvider>
+          )}
+
+          {!isPaid && paymentMethod === "Stripe" && clientSecret && (
+            <Elements
+              options={{
+                clientSecret,
+              }}
+              stripe={stripePromise}
+            >
+              <StripeForm
+                priceInCents={Math.round(order.totalPrice * 100)}
+                orderId={order._id}
+              />
+            </Elements>
           )}
 
           {!isPaid && paymentMethod === "Cash On Delivery" && (
