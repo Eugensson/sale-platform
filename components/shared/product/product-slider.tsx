@@ -21,7 +21,7 @@ export const ProductSlider = ({
   hideDetails?: boolean;
 }) => {
   return (
-    <div className="w-full bg-background">
+    <section className="w-full bg-background">
       <h2 className="mb-4 text-2xl">{title}</h2>
       <Carousel
         opts={{
@@ -51,6 +51,6 @@ export const ProductSlider = ({
         <CarouselPrevious className="left-0" />
         <CarouselNext className="right-0" />
       </Carousel>
-    </div>
+    </section>
   );
 };

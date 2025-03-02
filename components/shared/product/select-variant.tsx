@@ -28,7 +28,7 @@ export const SelectVariant = ({
               variant="outline"
               className={cn(
                 "border-2",
-                selectedColor === x && "border-blue-600"
+                selectedColor === x && "border-primary"
               )}
               key={x}
             >
@@ -58,10 +58,7 @@ export const SelectVariant = ({
             <Button
               asChild
               variant="outline"
-              className={cn(
-                "border-2",
-                selectedSize === x && "border-blue-600"
-              )}
+              className={cn("border-2", selectedSize === x && "border-primary")}
               key={x}
             >
               <Link

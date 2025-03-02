@@ -19,24 +19,24 @@ export const Rating = ({
       {[...Array(fullStars)].map((_, i) => (
         <Star
           key={`full-${i}`}
-          className={`w-${size} h-${size} fill-yellow-500 text-yellow-500`}
+          className={`w-${size} h-${size} fill-primary text-primary`}
         />
       ))}
       {partialStar > 0 && (
         <div className="relative">
-          <Star className={`w-${size} h-${size} text-yellow-500`} />
+          <Star className={`w-${size} h-${size} text-primary`} />
           <div
             className="absolute top-0 left-0 overflow-hidden"
             style={{ width: `${partialStar * 100}%` }}
           >
-            <Star className="size-4 fill-yellow-500 text-yellow-500" />
+            <Star className="size-4 fill-primary text-primary" />
           </div>
         </div>
       )}
       {[...Array(emptyStars)].map((_, i) => (
         <Star
           key={`empty-${i}`}
-          className={`w-${size} h-${size}  text-yellow-500`}
+          className={`w-${size} h-${size} text-primary`}
         />
       ))}
     </div>

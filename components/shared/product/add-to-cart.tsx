@@ -51,7 +51,7 @@ export const AddToCart = ({ item, minimal = false }: Props) => {
       Add to Cart
     </Button>
   ) : (
-    <div className="w-full space-y-2">
+    <div className="w-full space-y-5">
       <Select
         value={quantity.toString()}
         onValueChange={(i) => setQuantity(Number(i))}
@@ -67,7 +67,6 @@ export const AddToCart = ({ item, minimal = false }: Props) => {
           ))}
         </SelectContent>
       </Select>
-
       <Button
         className="w-full rounded-md"
         type="button"

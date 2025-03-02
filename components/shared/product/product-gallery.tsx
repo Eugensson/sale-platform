@@ -3,35 +3,43 @@
 import Image from "next/image";
 import { useState } from "react";
 import Zoom from "react-medium-image-zoom";
-
 import "react-medium-image-zoom/dist/styles.css";
 
-export const ProductGallery = ({ images }: { images: string[] }) => {
+import { cn } from "@/lib/utils";
+
+export const ProductGallery = ({
+  images,
+  className,
+}: {
+  images: string[];
+  className?: string;
+}) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   return (
-    <div className="flex gap-2">
-      <div className="flex flex-col gap-2 mt-8">
+    <section className={cn("flex gap-2", className)}>
+      <ul className="flex flex-col gap-4 mt-8">
         {images.map((image, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              setSelectedImage(index);
-            }}
-            onMouseOver={() => {
-              setSelectedImage(index);
-            }}
-            className={`bg-white rounded overflow-hidden ${
-              selectedImage === index
-                ? "ring-2 ring-blue-600"
-                : "ring-1 ring-gray-300"
-            }`}
-          >
-            <Image src={image} alt="Product image" width={48} height={48} />
-          </button>
+          <li key={index}>
+            <button
+              onClick={() => {
+                setSelectedImage(index);
+              }}
+              onMouseOver={() => {
+                setSelectedImage(index);
+              }}
+              className={cn(
+                "bg-white p-2 rounded aspect-square overflow-hidden",
+                selectedImage === index
+                  ? "ring-1 ring-primary"
+                  : "ring-1 ring-gray-300"
+              )}
+            >
+              <Image src={image} alt="Product image" width={75} height={75} />
+            </button>
+          </li>
         ))}
-      </div>
-
+      </ul>
       <div className="w-full">
         <Zoom classDialog="custom-zoom">
           <div className="relative h-[500px]">
@@ -46,6 +54,6 @@ export const ProductGallery = ({ images }: { images: string[] }) => {
           </div>
         </Zoom>
       </div>
-    </div>
+    </section>
   );
 };
