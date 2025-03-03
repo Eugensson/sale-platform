@@ -1,14 +1,18 @@
 import Link from "next/link";
-import { MenuIcon } from "lucide-react";
 
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Menu } from "@/components/shared/header/menu";
 import { Search } from "@/components/shared/header/search";
+import { Sidebar } from "@/components/shared/header/sidebar";
 
 import data from "@/lib/data";
 
-export const Header = () => {
+import { getAllCategories } from "@/lib/actions/product.actions";
+
+export const Header = async () => {
+  const categories = await getAllCategories();
+
   return (
     <header className="sticky top-0 z-50">
       <div className="bg-gray-950 text-gray-50">
@@ -27,15 +31,7 @@ export const Header = () => {
       </div>
       <div className="bg-gray-800 text-gray-50">
         <div className="container py-0.5 flex items-stretch">
-          <Button
-            variant="ghost"
-            type="button"
-            className="bg-gray-800 hover:bg-foreground hover:text-muted"
-            aria-label="Menu"
-            title="Menu"
-          >
-            <MenuIcon />
-          </Button>
+          <Sidebar categories={categories} />
           <ul className="flex flex-wrap items-center overflow-hidden max-h-11">
             {data.headerMenus.map(({ href, name }) => (
               <li key={href}>
