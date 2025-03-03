@@ -113,7 +113,7 @@ export const ProductCard = ({
       )}
     </div>
   ) : (
-    <Card className="flex flex-col  ">
+    <Card className="flex flex-col">
       <CardHeader className="p-3">
         <ProductImage />
       </CardHeader>

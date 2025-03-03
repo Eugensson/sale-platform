@@ -33,7 +33,7 @@ export const AddToCart = ({ item, minimal = false }: Props) => {
   return minimal ? (
     <Button
       variant="default"
-      className="rounded-full w-auto"
+      className="rounded-mds w-auto"
       onClick={() => {
         try {
           addItem(item, 1);

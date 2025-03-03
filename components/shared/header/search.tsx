@@ -8,12 +8,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-
 import { Button } from "@/components/ui/button";
 
-const categories = ["men", "women", "kids", "accessories"];
+import { getAllCategories } from "@/lib/actions/product.actions";
 
 export const Search = async () => {
+  const categories = await getAllCategories();
+
   return (
     <form action="/search" method="GET" className="flex items-stretch h-10">
       <Select name="category">
