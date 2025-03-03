@@ -51,13 +51,13 @@ export const BrowsingHistoryList = ({ className }: { className?: string }) => {
 
   return (
     products.length !== 0 && (
-      <section className="bg-background">
+      <section className="p-8 pt-0 bg-background rounded-md shadow-md">
         <Separator className={cn("mb-4", className)} />
         <ProductList
           title={"Related to items that you've viewed"}
           type="related"
         />
-        <Separator className="mb-4" />
+        <Separator className="my-6" />
         <ProductList
           title={"Your browsing history"}
           hideDetails

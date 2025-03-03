@@ -24,13 +24,14 @@ export const CartButton = () => {
     <Button
       variant="ghost"
       type="button"
-      className="bg-foreground hover:bg-gray-700 hover:text-muted"
+      size="icon"
       asChild
       aria-label="Cart"
       title="Cart"
+      className="[&_svg]:size-6"
     >
       <Link href="/cart">
-        <div className="flex items-end text-xs relative">
+        <div className="relative flex items-end text-xs">
           <ShoppingBag />
           {isMounted && cartItemsCount > 0 && (
             <Badge

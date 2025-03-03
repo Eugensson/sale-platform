@@ -39,7 +39,7 @@ export const Search = async () => {
       <Button
         variant="ghost"
         type="submit"
-        className="rounded-s-none rounded-e-md h-full px-4 py-2 bg-gray-800 hover:bg-gray-700 hover:text-muted"
+        className="rounded-s-none rounded-e-md h-full px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-50"
       >
         <SearchIcon />
       </Button>

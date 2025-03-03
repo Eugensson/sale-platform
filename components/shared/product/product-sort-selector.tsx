@@ -41,9 +41,10 @@ export const ProductSortSelector = ({
       }}
       value={sort}
     >
-      <SelectTrigger className="w-full md:w-48 h-12">
+      <SelectTrigger className="w-full md:w-64 h-12">
+        Sort by:
         <SelectValue>
-          Sort By: {sortOrders.find((s) => s.value === sort)!.name}
+          {sortOrders.find((s) => s.value === sort)!.name}
         </SelectValue>
       </SelectTrigger>
 

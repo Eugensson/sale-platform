@@ -29,13 +29,19 @@ export const ProductGallery = ({
                 setSelectedImage(index);
               }}
               className={cn(
-                "bg-white p-2 rounded aspect-square overflow-hidden",
+                "p-2 rounded aspect-square overflow-hidden",
                 selectedImage === index
                   ? "ring-1 ring-primary"
                   : "ring-1 ring-gray-300"
               )}
             >
-              <Image src={image} alt="Product image" width={75} height={75} />
+              <Image
+                src={image}
+                alt="Product image"
+                width={75}
+                height={75}
+                className="object-cover object-center aspect-square"
+              />
             </button>
           </li>
         ))}

@@ -10,6 +10,7 @@ import {
 import { ProductCard } from "@/components/shared/product/product-card";
 
 import { IProduct } from "@/lib/db/models/product.model";
+import { cn } from "@/lib/utils";
 
 export const ProductSlider = ({
   title,
@@ -21,8 +22,8 @@ export const ProductSlider = ({
   hideDetails?: boolean;
 }) => {
   return (
-    <section className="w-full bg-background">
-      <h2 className="mb-4 text-2xl">{title}</h2>
+    <section className="bg-background">
+      <h2 className="mb-8 text-2xl">{title}</h2>
       <Carousel
         opts={{
           align: "start",
@@ -33,11 +34,12 @@ export const ProductSlider = ({
           {products.map((product) => (
             <CarouselItem
               key={product.slug}
-              className={
+              className={cn(
+                "w-[80%] mx-auto",
                 hideDetails
                   ? "md:basis-1/4 lg:basis-1/6"
                   : "md:basis-1/3 lg:basis-1/5"
-              }
+              )}
             >
               <ProductCard
                 hideDetails={hideDetails}

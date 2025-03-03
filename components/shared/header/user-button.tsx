@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronDown, UserIcon } from "lucide-react";
+import { UserIcon } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -22,19 +22,17 @@ export const UserButton = async () => {
   return (
     <div className="flex gap-2 items-center">
       <DropdownMenu>
-        <DropdownMenuTrigger
-          className={cn(
-            buttonVariants(),
-            "cursor-pointer bg-foreground hover:bg-gray-700 hover:text-muted"
-          )}
-          aria-label="Authentication"
-          title="Authentication"
-          asChild
-        >
-          <div>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            type="button"
+            size="icon"
+            aria-label="Authentication"
+            title="Authentication"
+            className="[&_svg]:size-6"
+          >
             <UserIcon />
-            <ChevronDown />
-          </div>
+          </Button>
         </DropdownMenuTrigger>
         {session ? (
           <DropdownMenuContent className="w-56" align="end" forceMount>

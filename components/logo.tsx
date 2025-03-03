@@ -8,7 +8,7 @@ export const Logo = ({ className }: { className?: string }) => {
   return (
     <Link
       href="/"
-      className={cn("flex flex-col w-fit text-muted", className)}
+      className={cn("flex flex-col w-fit text-gray-50", className)}
       aria-label={APP_NAME}
       title={APP_NAME}
     >

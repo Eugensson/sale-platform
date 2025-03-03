@@ -31,7 +31,7 @@ const Home = async () => {
       },
       items: categories.map((category) => ({
         name: category,
-        image: `/images/${toSlug(category)}.jpg`,
+        image: `/images/${toSlug(category)}.png`,
         href: `/search?category=${category}`,
       })),
     },
@@ -81,9 +81,7 @@ const Home = async () => {
               />
             </CardContent>
           </Card>
-          <div className="pt-0 p-4 rounded-2xl shadow-md bg-background">
-            <BrowsingHistoryList />
-          </div>
+          <BrowsingHistoryList />
         </div>
       </div>
     </>
