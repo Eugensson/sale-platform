@@ -1,10 +1,64 @@
 "use server";
 
-import { unstable_cache } from "next/cache";
+import { z } from "zod";
+import { revalidatePath, unstable_cache } from "next/cache";
 
+import { formatError } from "@/lib/utils";
 import { PAGE_SIZE } from "@/lib/constants";
 import { connectToDatabase } from "@/lib/db";
+import { ProductInputSchema, ProductUpdateSchema } from "@/lib/validator";
+import { getSetting } from "@/lib/actions/setting.actions";
 import { IProduct, Product } from "@/lib/db/models/product.model";
+
+import { IProductInput } from "@/types";
+
+export const createProduct = async (data: IProductInput) => {
+  try {
+    const product = ProductInputSchema.parse(data);
+
+    await connectToDatabase();
+
+    await Product.create(product);
+
+    revalidatePath("/admin/products");
+
+    return {
+      success: true,
+      message: "Product created successfully",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+};
+
+export const updateProduct = async (
+  data: z.infer<typeof ProductUpdateSchema>
+) => {
+  try {
+    const product = ProductUpdateSchema.parse(data);
+
+    await connectToDatabase();
+
+    await Product.findByIdAndUpdate(product._id, product);
+
+    revalidatePath("/admin/products");
+
+    return {
+      success: true,
+      message: "Product updated successfully",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+};
+
+export const getProductById = async (productId: string) => {
+  await connectToDatabase();
+
+  const product = await Product.findById(productId);
+
+  return JSON.parse(JSON.stringify(product)) as IProduct;
+};
 
 export const getAllCategories = async () => {
   await connectToDatabase();
@@ -233,4 +287,80 @@ export const getAllTags = async () => {
           .join(" ")
       ) as string[]) || []
   );
+};
+
+export const deleteProduct = async (id: string) => {
+  try {
+    await connectToDatabase();
+    const res = await Product.findByIdAndDelete(id);
+    if (!res) throw new Error("Product not found");
+    revalidatePath("/admin/products");
+    return {
+      success: true,
+      message: "Product deleted successfully",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+};
+
+export const getAllProductsForAdmin = async ({
+  query,
+  page = 1,
+  sort = "latest",
+  limit = 10,
+}: {
+  query: string;
+  page?: number;
+  sort?: string;
+  limit?: number;
+}) => {
+  await connectToDatabase();
+
+  const {
+    common: { pageSize },
+  } = await getSetting();
+
+  limit = limit || pageSize;
+
+  const queryFilter =
+    query && query !== "all"
+      ? {
+          name: {
+            $regex: query,
+            $options: "i",
+          },
+        }
+      : {};
+
+  const order: Record<string, 1 | -1> =
+    sort === "best-selling"
+      ? { numSales: -1 }
+      : sort === "price-low-to-high"
+        ? { price: 1 }
+        : sort === "price-high-to-low"
+          ? { price: -1 }
+          : sort === "avg-customer-review"
+            ? { avgRating: -1 }
+            : { _id: -1 };
+
+  const products = await Product.find({
+    ...queryFilter,
+  })
+    .sort(order)
+    .skip(limit * (Number(page) - 1))
+    .limit(limit)
+    .lean();
+
+  const countProducts = await Product.countDocuments({
+    ...queryFilter,
+  });
+
+  return {
+    products: JSON.parse(JSON.stringify(products)) as IProduct[],
+    totalPages: Math.ceil(countProducts / pageSize),
+    totalProducts: countProducts,
+    from: pageSize * (Number(page) - 1) + 1,
+    to: pageSize * (Number(page) - 1) + products.length,
+  };
 };

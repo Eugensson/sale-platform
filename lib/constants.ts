@@ -1,3 +1,13 @@
+import {
+  CreditCard,
+  Currency,
+  ImageIcon,
+  Info,
+  Languages,
+  Package,
+  SettingsIcon,
+} from "lucide-react";
+
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "SalePlatform";
 
 export const SERVER_URL =
@@ -63,5 +73,68 @@ export const AVAILABLE_DELIVERY_DATES = [
     daysToDeliver: 5,
     shippingPrice: 4.9,
     freeShippingMinPrice: 35,
+  },
+];
+
+export const USER_ROLES = ["Admin", "User"];
+
+export const COLORS = ["Gold", "Green", "Red"];
+
+export const THEMES = ["Light", "Dark", "System"];
+
+export const ADMIN_NAV_LINKS = [
+  {
+    title: "Overview",
+    href: "/admin/overview",
+  },
+  {
+    title: "Products",
+    href: "/admin/products",
+  },
+  {
+    title: "Orders",
+    href: "/admin/orders",
+  },
+  {
+    title: "Users",
+    href: "/admin/users",
+  },
+  {
+    title: "Pages",
+    href: "/admin/web-pages",
+  },
+  {
+    title: "Settings",
+    href: "/admin/settings",
+  },
+];
+
+export const ADMIN_SETTINGS_NAV_LINKS = [
+  { name: "Site Info", hash: "setting-site-info", icon: Info },
+  {
+    name: "Common Settings",
+    hash: "setting-common",
+    icon: SettingsIcon,
+  },
+  {
+    name: "Carousels",
+    hash: "setting-carousels",
+    icon: ImageIcon,
+  },
+  { name: "Languages", hash: "setting-languages", icon: Languages },
+  {
+    name: "Currencies",
+    hash: "setting-currencies",
+    icon: Currency,
+  },
+  {
+    name: "Payment Methods",
+    hash: "setting-payment-methods",
+    icon: CreditCard,
+  },
+  {
+    name: "Delivery Dates",
+    hash: "setting-delivery-dates",
+    icon: Package,
   },
 ];
